@@ -1,7 +1,7 @@
 var app = angular.module('myWebApp',['ngMaterial']);
 
 app.run(function($http, $rootScope, $timeout) {
-  console.log('App Starts');
+  //console.log('App Starts');
 
   $rootScope.logoutActiveUser = function () {
     $rootScope.activeUser = '';
@@ -10,7 +10,7 @@ app.run(function($http, $rootScope, $timeout) {
   }
 
   $rootScope.setActiveSubNav = function (view) {
-    console.log('activeSubNav', view);
+    //console.log('activeSubNav', view);
     $rootScope.activeSubNav = view;
   }
 
@@ -90,19 +90,19 @@ app.run(function($http, $rootScope, $timeout) {
 })
 
 app.controller('HomeController', function($rootScope, $scope, $http, $timeout, $mdSidenav, $log) {
-  console.log('Loading Home Controller..');
+  //console.log('Loading Home Controller..');
   $scope.users = [{'name':'admin','password':'admin123','type':'a'},{'name':'employee','password':'employee123','type':'e'},{'name':'student','password':'student123','type':'s'},{'name':'parent','password':'parent123','type':'p'}];
 
   $scope.loginUser = function (loginData) {
     angular.forEach($scope.users, function(value, key) {
-      // console.log(key + ': ' + value.name+ ', ' + value.password);
+      // //console.log(key + ': ' + value.name+ ', ' + value.password);
       if (loginData.username == value.name ) {
-        console.log('username found');
+        //console.log('username found');
         if (value.password == loginData.password) {
-          console.log('login success');
+          //console.log('login success');
           $rootScope.activeUser = value;
           window.localStorage['activeUser'] = JSON.stringify($rootScope.activeUser);
-          console.log('activeUser',$rootScope.activeUser);
+          //console.log('activeUser',$rootScope.activeUser);
           window.location.href="index.php";
         }
       }
@@ -111,27 +111,38 @@ app.controller('HomeController', function($rootScope, $scope, $http, $timeout, $
 });
 
 app.controller('SideBarController', function ($rootScope,$scope, $timeout, $mdSidenav, $log) {
-  console.log('Loading SideBarController');
+  //console.log('Loading SideBarController');
 
-  $scope.setActiveSubView = function(view) {
-    console.log('activeSubView',view);
-    $scope.activeSubView = view;
+  $scope.setActiveSubNavView = function(view) {
+    //console.log('activeSubNavView',view);
+    $scope.activeSubNavView = view;
+    window.localStorage['activeSubNavView'] = view;
+    //console.log('window.localStorage["activeSubNavView"]', window.localStorage['activeSubNavView']);
+  }
+
+  if(window.localStorage['activeSubNavView'] == undefined || window.localStorage['activeSubNavView'] == null || window.localStorage['activeSubNavView'] == '') {
+    $scope.setActiveSubNavView('none');
+    //console.log('reset');
+    } else {
+    $scope.setActiveSubNavView(window.localStorage['activeSubNavView']);
+    //console.log('sourced');
   }
 
   $scope.administrationSubmenu = [{'icon':'','link':'settings.php','title':'Settings'},{'icon':'','link':'','title':'Hostel'},{'icon':'','link':'','title':'Human Resource'},{'icon':'','link':'','title':'Inventory'},{'icon':'','link':'','title':'Online Payment'},{'icon':'','link':'','title':'Reminders'},{'icon':'','link':'','title':'Finance'},{'icon':'','link':'','title':'Transport'},{'icon':'','link':'','title':'User'}];
   $scope.academicsSubmenu = [{'icon':'','link':'','title':'Applicant Registration'},{'icon':'','link':'','title':'Attendence'},{'icon':'','link':'','title':'Batch Summary'},{'icon':'','link':'','title':'Calender'},{'icon':'','link':'','title':'Discipline'},{'icon':'','link':'','title':'Examination'},{'icon':'','link':'','title':'Leaves'},{'icon':'','link':'','title':'Library'},{'icon':'','link':'','title':'My Profile'},{'icon':'','link':'','title':'Placement'},{'icon':'','link':'','title':'Remarks'},{'icon':'','link':'','title':'Student Records'},{'icon':'','link':'','title':'Students'},{'icon':'','link':'','title':'Timetable'},{'icon':'','link':'','title':'Transfer Certificate'}];
   $scope.dataReportsSubmenu = [{'icon':'','link':'','title':'Custom Imports'},{'icon':'','link':'','title':'Custom Reports'},{'icon':'','link':'','title':'Data Exports'},{'icon':'','link':'','title':'Data Management'},{'icon':'','link':'','title':'Audit'},{'icon':'','link':'','title':'Reports'}];
   $scope.collabrationSubmenu = [{'icon':'','link':'','title':'Alumni'},{'icon':'','link':'','title':'Blog'},{'icon':'','link':'','title':'Collaborate'},{'icon':'','link':'','title':'Discussion'},{'icon':'','link':'','title':'Documents'},{'icon':'','link':'','title':'E-mail'},{'icon':'','link':'','title':'Event Creation'},{'icon':'','link':'','title':'Forms'},{'icon':'','link':'','title':'Gallery'},{'icon':'','link':'','title':'Google Docs'},{'icon':'','link':'','title':'News'},{'icon':'','link':'','title':'Poll'},{'icon':'','link':'','title':'Tasks'}];
+
 });
 
 app.controller('DashboardController', function ($rootScope,$scope, $timeout, $mdSidenav, $log) {
-  console.log('Loading DashboardController');
+  //console.log('Loading DashboardController');
 
   if (window.localStorage['activeUser'] == null || window.localStorage['activeUser'] == undefined || window.localStorage['activeUser']== ""){
     window.location.href = "login.php";
   } else {
     $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
-    console.log('activeUser',$rootScope.activeUser);
+    //console.log('activeUser',$rootScope.activeUser);
   }
 
   $scope.aDashCardsLeft = [{"title":"Discussions","content":"No Data to Display","active":"true"},{"title":"Finance","content":"No Data to Display","active":"true"},{"title":"Timetable","content":"No Data to Display","active":"true"}];
@@ -152,21 +163,23 @@ app.controller('DashboardController', function ($rootScope,$scope, $timeout, $md
 });
 
 app.controller('SettingsController', function ($rootScope,$scope, $timeout, $mdSidenav, $log) {
-  console.log('Loading SettingsController');
+  //console.log('Loading SettingsController');
+
   if (window.localStorage['activeUser'] == null || window.localStorage['activeUser'] == undefined || window.localStorage['activeUser']== ""){
     window.location.href = "login.php";
   } else {
     $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
-    console.log('activeUser',$rootScope.activeUser);
+    //console.log('activeUser',$rootScope.activeUser);
   }
 
   $scope.moduleSubMenu = [{"title":"Course/ Batch","tag":"Add a new course or batch for this academic year","link":"mcb"},{"title":"Subjects","tag":"Manage subjects coresponding to different courses","link":"ms"},{"title":"Student Category","tag":"Add Student Category","link":"msc"},{"title":"Additional Admission Details","tag":"Set Some Additional details for admission","link":"aaad"},{"title":"SMS Module","tag":"Enable/disable SMS settings","link":"sms"}];
 
   $scope.setActiveSettingsView = function (view) {
     $scope.activeSettingsView = view;
-    console.log('activeSettingsView',view);
+    //console.log('activeSettingsView',view);
     window.localStorage['activeSettingsView'] = view;
   }
+
   if (window.localStorage['activeSettingsView'] == null || window.localStorage['activeSettingsView'] == undefined || window.localStorage['activeSettingsView']== ""){
     $scope.setActiveSettingsView('none');
   } else {
@@ -243,3 +256,23 @@ app.controller('SettingsController', function ($rootScope,$scope, $timeout, $mdS
                           }];
 
 });
+
+app.controller('ModuleController', function ($rootScope, $scope, $timeout) {
+  //console.log('Loading ModuleController...');
+
+  $scope.administrationCards = [{'icon':'','link':'settings.php','title':'Settings'},{'icon':'','link':'','title':'Hostel'},{'icon':'','link':'','title':'Human Resource'},{'icon':'','link':'','title':'Inventory'},{'icon':'','link':'','title':'Online Payment'},{'icon':'','link':'','title':'Reminders'},{'icon':'','link':'','title':'Finance'},{'icon':'','link':'','title':'Transport'},{'icon':'','link':'','title':'User'}];
+  $scope.academicsCards = [{'icon':'','link':'','title':'Applicant Registration'},{'icon':'','link':'','title':'Attendence'},{'icon':'','link':'','title':'Batch Summary'},{'icon':'','link':'','title':'Calender'},{'icon':'','link':'','title':'Discipline'},{'icon':'','link':'','title':'Examination'},{'icon':'','link':'','title':'Leaves'},{'icon':'','link':'','title':'Library'},{'icon':'','link':'','title':'My Profile'},{'icon':'','link':'','title':'Placement'},{'icon':'','link':'','title':'Remarks'},{'icon':'','link':'','title':'Student Records'},{'icon':'','link':'','title':'Students'},{'icon':'','link':'','title':'Timetable'},{'icon':'','link':'','title':'Transfer Certificate'}];
+  $scope.dataReportsCards = [{'icon':'','link':'','title':'Custom Imports'},{'icon':'','link':'','title':'Custom Reports'},{'icon':'','link':'','title':'Data Exports'},{'icon':'','link':'','title':'Data Management'},{'icon':'','link':'','title':'Audit'},{'icon':'','link':'','title':'Reports'}];
+  $scope.collabrationCards = [{'icon':'','link':'','title':'Alumni'},{'icon':'','link':'','title':'Blog'},{'icon':'','link':'','title':'Collaborate'},{'icon':'','link':'','title':'Discussion'},{'icon':'','link':'','title':'Documents'},{'icon':'','link':'','title':'E-mail'},{'icon':'','link':'','title':'Event Creation'},{'icon':'','link':'','title':'Forms'},{'icon':'','link':'','title':'Gallery'},{'icon':'','link':'','title':'Google Docs'},{'icon':'','link':'','title':'News'},{'icon':'','link':'','title':'Poll'},{'icon':'','link':'','title':'Tasks'}];
+
+  $scope.setActiveModulePage = function (view) {
+    $scope.activeModulesView = view;
+    //console.log('activeModulesView',view);
+    window.localStorage['activeModulesView'] = view;
+  }
+  if (window.localStorage['activeModulesView'] == null || window.localStorage['activeModulesView'] == undefined || window.localStorage['activeModulesView']== ""){
+    $scope.setActiveModulePage('none');
+  } else {
+    $scope.setActiveModulePage(window.localStorage['activeModulesView']);
+  }
+})
