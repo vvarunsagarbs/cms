@@ -4,7 +4,7 @@
     Dashboard
   </div></a>
   <!-- Administration -->
-  <div data-ng-show="activeUser.type == 'a'" data-ng-controller="SettingsController">
+  <div data-ng-show="activeUser.type == 'a'">
     <a href="modules.php" ng-click="setActiveModulePage('ad')">
       <div id="sideNavContent" data-ng-hide="activeSubNavView=='administration'" data-ng-click="setActiveSubNavView('administration')">
         <span>Administration</span>
@@ -47,7 +47,7 @@
         <i class="fa fa-fw fa-angle-right pullRight"></i>
       </div>
     </a>
-    <div id="sideNavContentActive" data-ng-show="activeSubNavView=='dataAndReports'" data-ng-click="setActiveSubNavView('none')">
+    <div id="sideNavContentActive" data-ng-show="activeSubNavView=='dataAndReports'">
       <p data-ng-click="setActiveSubNavView('none')">
         <span>Data and Reports</span>
         <i class="fa fa-fw fa-angle-down pullRight"></i>
@@ -57,21 +57,21 @@
       </ul>
     </div>
   </div>
-  <!-- Collaboration -->
+  <!-- Utility -->
   <div>
-    <a href="modules.php" ng-click="setActiveModulePage('co')">
-      <div id="sideNavContent" data-ng-hide="activeSubNavView=='collaboration'" data-ng-click="setActiveSubNavView('collaboration')">
-        <span>Collaboration</span>
+    <a href="modules.php" ng-click="setActiveModulePage('ut')">
+      <div id="sideNavContent" data-ng-hide="activeSubNavView=='Utility'" data-ng-click="setActiveSubNavView('Utility')">
+        <span>Utility</span>
         <i class="fa fa-fw fa-angle-right pullRight"></i>
       </div>
     </a>
-    <div id="sideNavContentActive" data-ng-show="activeSubNavView=='collaboration'" data-ng-click="setActiveSubNavView('none')">
+    <div id="sideNavContentActive" data-ng-show="activeSubNavView=='Utility'">
       <p data-ng-click="setActiveSubNavView('none')">
-        <span>Collaboration</span>
+        <span>Utility</span>
         <i class="fa fa-fw fa-angle-down pullRight"></i>
       </p>
       <ul>
-        <a data-ng-repeat="menu in collabrationSubmenu" href="{{menu.link}}"><li>{{menu.title}}</li></a>
+        <a data-ng-repeat="menu in UtilitySubmenu" href="{{menu.link}}"><li>{{menu.title}}</li></a>
       </ul>
     </div>
   </div>

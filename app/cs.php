@@ -3,7 +3,7 @@
    <!-- Head -->
    <?php include 'include/head.php';?>
    <!-- /Head -->
-   <body data-ng-app="myWebApp" data-ng-controller="ModuleController">
+   <body data-ng-app="myWebApp" data-ng-controller="HomeController">
     <!-- NavBar -->
         <?php include 'include/navbar.php';?>
     <!-- /NavBar -->
@@ -18,30 +18,10 @@
             <!-- Main Content -->
             <div class="col-md-10" style="background-color:#F0F3F4;margin:0px;padding:0px;">
               <!-- Dashboard -->
-              <div ng-show="activeModulesView=='none'">
-                <?php include 'sub/modules/dash.php'; ?>
+              <div class="row center" style="padding:10%;">
+                <img src="img/WorkInProgress.gif" alt="Work In Progress"/>
               </div>
               <!-- /Dashboard -->
-              <!-- administration -->
-              <div ng-show="activeModulesView=='ad'">
-                <?php include 'sub/modules/administration.php'; ?>
-              </div>
-              <!-- /administration -->
-              <!-- academics -->
-              <div ng-show="activeModulesView=='ac'">
-                <?php include 'sub/modules/academics.php'; ?>
-              </div>
-              <!-- /academics -->
-              <!-- dataReports -->
-              <div ng-show="activeModulesView=='dr'">
-                <?php include 'sub/modules/dataReports.php'; ?>
-              </div>
-              <!-- /dataReports -->
-              <!-- Utility -->
-              <div ng-show="activeModulesView=='ut'">
-                <?php include 'sub/modules/utility.php'; ?>
-              </div>
-              <!-- /Utility -->
             </div>
             <!-- /Main Content -->
           </div>

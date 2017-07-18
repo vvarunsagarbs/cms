@@ -3,7 +3,7 @@
    <!-- Head -->
    <?php include 'include/head.php';?>
    <!-- /Head -->
-   <body data-ng-app="myWebApp" data-ng-controller="ModuleController">
+   <body data-ng-app="myWebApp" data-ng-controller="ReportsController">
     <!-- NavBar -->
         <?php include 'include/navbar.php';?>
     <!-- /NavBar -->
@@ -18,30 +18,25 @@
             <!-- Main Content -->
             <div class="col-md-10" style="background-color:#F0F3F4;margin:0px;padding:0px;">
               <!-- Dashboard -->
-              <div ng-show="activeModulesView=='none'">
-                <?php include 'sub/modules/dash.php'; ?>
+              <div ng-show="activeReportsView=='none'">
+                <?php include 'sub/dataReports/reports/dash.php'; ?>
               </div>
               <!-- /Dashboard -->
-              <!-- administration -->
-              <div ng-show="activeModulesView=='ad'">
-                <?php include 'sub/modules/administration.php'; ?>
+              <!-- Hostel -->
+              <div ng-show="activeReportsView=='drcbd'">
+                <?php include 'sub/dataReports/reports/courseBatchDetails.php'; ?>
               </div>
-              <!-- /administration -->
-              <!-- academics -->
-              <div ng-show="activeModulesView=='ac'">
-                <?php include 'sub/modules/academics.php'; ?>
+              <!-- /Hostel -->
+              <!-- Rooms -->
+              <div ng-show="activeReportsView=='drfsd'">
+                <?php include 'sub/dataReports/reports/formerStudentsDetails.php'; ?>
               </div>
-              <!-- /academics -->
-              <!-- dataReports -->
-              <div ng-show="activeModulesView=='dr'">
-                <?php include 'sub/modules/dataReports.php'; ?>
+              <!-- /Rooms -->
+              <!-- Rooms -->
+              <div ng-hide="activeReportsView=='drfsd' || activeReportsView=='drcbd' || activeReportsView=='none'">
+                <?php include 'sub/dataReports/reports/cs.php'; ?>
               </div>
-              <!-- /dataReports -->
-              <!-- Utility -->
-              <div ng-show="activeModulesView=='ut'">
-                <?php include 'sub/modules/utility.php'; ?>
-              </div>
-              <!-- /Utility -->
+              <!-- /Rooms -->
             </div>
             <!-- /Main Content -->
           </div>

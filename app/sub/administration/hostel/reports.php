@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row" id="pageHeader" style="background-color:#F6F8F8;color:#646565;font-size:18px;">
     <div class="col-md-2 pad-10">
-      Configuration
+      Hostel
     </div>
     <div class="col-md-10 right">
       <ul id="moduleSubMenu" class="customScroll">
@@ -21,7 +21,7 @@
     <div class="pad-20">
       <p><b>Reports</b></p>
     </div>
-    <div class="col-md-8 col-md-offset-2">
+    <div class="row center">
       <img src="img/WorkInProgress.gif" alt="Work In Progress"/>
     </div>
   </div>

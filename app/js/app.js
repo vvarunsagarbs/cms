@@ -1,12 +1,22 @@
 var app = angular.module('myWebApp',['ngMaterial']);
 
-app.run(function($http, $rootScope, $timeout) {
+app.run(function($http, $rootScope, $timeout, $mdToast) {
   console.log('App Starts');
 
   $rootScope.logoutActiveUser = function () {
     $rootScope.activeUser = '';
     window.localStorage['activeUser'] = '';
     window.location.reload();
+  }
+
+  // Toast Template
+  $rootScope.showSimpleToast = function(message, position, delay) {
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent(message)
+        .position(position)
+        .hideDelay(delay)
+    );
   }
 
   $rootScope.setActiveSubNav = function (view) {
@@ -104,7 +114,11 @@ app.controller('HomeController', function($rootScope, $scope, $http, $timeout, $
           window.localStorage['activeUser'] = JSON.stringify($rootScope.activeUser);
           console.log('activeUser',$rootScope.activeUser);
           window.location.href="index.php";
+        } else {
+          $rootScope.showSimpleToast("Invalid Username or Password", "top right", "2000");
         }
+      } else {
+        $rootScope.showSimpleToast("Invalid Username or Password", "top right", "2000");
       }
     });
   }
@@ -112,6 +126,13 @@ app.controller('HomeController', function($rootScope, $scope, $http, $timeout, $
 
 app.controller('SideBarController', function ($rootScope,$scope, $timeout, $mdSidenav, $log) {
   console.log('Loading SideBarController');
+
+  if (window.localStorage['activeUser'] == null || window.localStorage['activeUser'] == undefined || window.localStorage['activeUser']== ""){
+      window.location.href = "login.php";
+    } else {
+      $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
+      console.log('activeUser',$rootScope.activeUser);
+  }
 
   $scope.setActiveSubNavView = function(view) {
     console.log('activeSubNavView',view);
@@ -128,10 +149,13 @@ app.controller('SideBarController', function ($rootScope,$scope, $timeout, $mdSi
     console.log('sourced');
   }
 
-  $scope.administrationSubmenu = [{'icon':'','controller':'SettingsController','link':'settings.php','title':'Settings'},{'icon':'','controller':'HostelController','link':'hostel.php','title':'Hostel'},{'icon':'','controller':'HRController','link':'hr.php','title':'Human Resource'},{'icon':'','controller':'OnlinePaymentController','link':'onlinePayment.php','title':'Online Payment'},{'icon':'','controller':'HomeController','link':'','title':'Inventory'},{'icon':'','controller':'HomeController','link':'','title':'Reminders'},{'icon':'','controller':'HomeController','link':'','title':'Finance'},{'icon':'','controller':'HomeController','link':'','title':'Transport'},{'icon':'','controller':'HomeController','link':'','title':'User'}];
-  $scope.academicsSubmenu = [{'icon':'','controller':'HomeController','link':'','title':'Applicant Registration'},{'icon':'','controller':'HomeController','link':'','title':'Attendence'},{'icon':'','controller':'HomeController','link':'','title':'Batch Summary'},{'icon':'','controller':'HomeController','link':'','title':'Calender'},{'icon':'','controller':'HomeController','link':'','title':'Discipline'},{'icon':'','controller':'HomeController','link':'','title':'Examination'},{'icon':'','controller':'HomeController','link':'','title':'Leaves'},{'icon':'','controller':'HomeController','link':'','title':'Library'},{'icon':'','controller':'HomeController','link':'','title':'My Profile'},{'icon':'','controller':'HomeController','link':'','title':'Placement'},{'icon':'','controller':'HomeController','link':'','title':'Remarks'},{'icon':'','controller':'HomeController','link':'','title':'Student Records'},{'icon':'','controller':'HomeController','link':'','title':'Students'},{'icon':'','controller':'HomeController','link':'','title':'Timetable'},{'icon':'','controller':'HomeController','link':'','title':'Transfer Certificate'}];
-  $scope.dataReportsSubmenu = [{'icon':'','controller':'HomeController','link':'','title':'Custom Imports'},{'icon':'','controller':'HomeController','link':'','title':'Custom Reports'},{'icon':'','controller':'HomeController','link':'','title':'Data Exports'},{'icon':'','controller':'HomeController','link':'','title':'Data Management'},{'icon':'','controller':'HomeController','link':'','title':'Audit'},{'icon':'','controller':'HomeController','link':'','title':'Reports'}];
-  $scope.collabrationSubmenu = [{'icon':'','controller':'HomeController','link':'','title':'Alumni'},{'icon':'','controller':'HomeController','link':'','title':'Blog'},{'icon':'','controller':'HomeController','link':'','title':'Collaborate'},{'icon':'','controller':'HomeController','link':'','title':'Discussion'},{'icon':'','controller':'HomeController','link':'','title':'Documents'},{'icon':'','controller':'HomeController','link':'','title':'E-mail'},{'icon':'','controller':'HomeController','link':'','title':'Event Creation'},{'icon':'','controller':'HomeController','link':'','title':'Forms'},{'icon':'','controller':'HomeController','link':'','title':'Gallery'},{'icon':'','controller':'HomeController','link':'','title':'Google Docs'},{'icon':'','controller':'HomeController','link':'','title':'News'},{'icon':'','controller':'HomeController','link':'','title':'Poll'},{'icon':'','controller':'HomeController','link':'','title':'Tasks'}];
+  $scope.administrationSubmenu = [{'icon':'','controller':'SettingsController','link':'settings.php','title':'Settings'},{'icon':'','controller':'HostelController','link':'hostel.php','title':'Hostel'},{'icon':'','controller':'HRController','link':'hr.php','title':'Human Resource'},{'icon':'','controller':'OnlinePaymentController','link':'onlinePayment.php','title':'Online Payment'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Inventory'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Reminders'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Finance'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Transport'},{'icon':'','controller':'HomeController','link':'cs.php','title':'User'}];
+
+  $scope.academicsSubmenu = [{'icon':'','controller':'ApplicantRegistrationController','link':'applicantRegistration.php','title':'Applicant Registration'},{'icon':'','controller':'AttendanceController','link':'attendance.php','title':'Attendence'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Batch Summary'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Calender'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Discipline'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Examination'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Leaves'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Library'},{'icon':'','controller':'HomeController','link':'cs.php','title':'My Profile'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Placement'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Remarks'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Student Records'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Students'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Timetable'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Transfer Certificate'}];
+
+  $scope.dataReportsSubmenu = [{'icon':'','controller':'ReportsController','link':'reports.php','title':'Reports'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Custom Imports'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Custom Reports'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Data Exports'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Data Management'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Audit'}];
+
+  $scope.UtilitySubmenu = [{'icon':'','controller':'HomeController','link':'cs.php','title':'Alumni'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Blog'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Collaborate'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Discussion'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Documents'},{'icon':'','controller':'HomeController','link':'cs.php','title':'E-mail'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Event Creation'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Forms'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Gallery'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Google Docs'},{'icon':'','controller':'HomeController','link':'cs.php','title':'News'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Poll'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Tasks'}];
 
 });
 
@@ -165,13 +189,20 @@ app.controller('DashboardController', function ($rootScope,$scope, $timeout, $md
 app.controller('ModuleController', function ($rootScope, $scope, $timeout) {
   console.log('Loading ModuleController...');
 
-  $scope.administrationCards = [{'icon':'','controller':'HomeController','link':'settings.php','title':'Settings'},{'icon':'','controller':'HostelController','link':'hostel.php','title':'Hostel'},{'icon':'','controller':'HRController','link':'hr.php','title':'Human Resource'},{'icon':'','controller':'OnlinePaymentController','link':'onlinePayment.php','title':'Online Payment'},{'icon':'','controller':'HomeController','link':'','title':'Inventory'},{'icon':'','controller':'HomeController','link':'','title':'Reminders'},{'icon':'','controller':'HomeController','link':'','title':'Finance'},{'icon':'','controller':'HomeController','link':'','title':'Transport'},{'icon':'','controller':'HomeController','link':'','title':'User'}];
+  if (window.localStorage['activeUser'] == null || window.localStorage['activeUser'] == undefined || window.localStorage['activeUser']== ""){
+      window.location.href = "login.php";
+    } else {
+      $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
+      console.log('activeUser',$rootScope.activeUser);
+  }
 
-  $scope.academicsCards = [{'icon':'','controller':'HomeController','link':'','title':'Applicant Registration'},{'icon':'','controller':'HomeController','link':'','title':'Attendence'},{'icon':'','controller':'HomeController','link':'','title':'Batch Summary'},{'icon':'','controller':'HomeController','link':'','title':'Calender'},{'icon':'','controller':'HomeController','link':'','title':'Discipline'},{'icon':'','controller':'HomeController','link':'','title':'Examination'},{'icon':'','controller':'HomeController','link':'','title':'Leaves'},{'icon':'','controller':'HomeController','link':'','title':'Library'},{'icon':'','controller':'HomeController','link':'','title':'My Profile'},{'icon':'','controller':'HomeController','link':'','title':'Placement'},{'icon':'','controller':'HomeController','link':'','title':'Remarks'},{'icon':'','controller':'HomeController','link':'','title':'Student Records'},{'icon':'','controller':'HomeController','link':'','title':'Students'},{'icon':'','controller':'HomeController','link':'','title':'Timetable'},{'icon':'','controller':'HomeController','link':'','title':'Transfer Certificate'}];
+  $scope.administrationCards = [{'icon':'','controller':'SettingsController','link':'settings.php','title':'Settings'},{'icon':'','controller':'HostelController','link':'hostel.php','title':'Hostel'},{'icon':'','controller':'HRController','link':'hr.php','title':'Human Resource'},{'icon':'','controller':'OnlinePaymentController','link':'onlinePayment.php','title':'Online Payment'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Inventory'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Reminders'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Finance'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Transport'},{'icon':'','controller':'HomeController','link':'cs.php','title':'User'}];
 
-  $scope.dataReportsCards = [{'icon':'','controller':'HomeController','link':'','title':'Custom Imports'},{'icon':'','controller':'HomeController','link':'','title':'Custom Reports'},{'icon':'','controller':'HomeController','link':'','title':'Data Exports'},{'icon':'','controller':'HomeController','link':'','title':'Data Management'},{'icon':'','controller':'HomeController','link':'','title':'Audit'},{'icon':'','controller':'HomeController','link':'','title':'Reports'}];
+  $scope.academicsCards = [{'icon':'','controller':'HomeController','link':'applicantRegistration.php','title':'Applicant Registration'},{'icon':'','controller':'AttendanceController','link':'attendance.php','title':'Attendence'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Batch Summary'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Calender'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Discipline'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Examination'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Leaves'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Library'},{'icon':'','controller':'HomeController','link':'cs.php','title':'My Profile'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Placement'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Remarks'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Student Records'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Students'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Timetable'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Transfer Certificate'}];
 
-  $scope.collabrationCards = [{'icon':'','controller':'HomeController','link':'','title':'Alumni'},{'icon':'','controller':'HomeController','link':'','title':'Blog'},{'icon':'','controller':'HomeController','link':'','title':'Collaborate'},{'icon':'','controller':'HomeController','link':'','title':'Discussion'},{'icon':'','controller':'HomeController','link':'','title':'Documents'},{'icon':'','controller':'HomeController','link':'','title':'E-mail'},{'icon':'','controller':'HomeController','link':'','title':'Event Creation'},{'icon':'','controller':'HomeController','link':'','title':'Forms'},{'icon':'','controller':'HomeController','link':'','title':'Gallery'},{'icon':'','controller':'HomeController','link':'','title':'Google Docs'},{'icon':'','controller':'HomeController','link':'','title':'News'},{'icon':'','controller':'HomeController','link':'','title':'Poll'},{'icon':'','controller':'HomeController','link':'','title':'Tasks'}];
+  $scope.dataReportsCards = [{'icon':'','controller':'ReportController','link':'reports.php','title':'Reports'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Custom Imports'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Custom Reports'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Data Exports'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Data Management'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Audit'}];
+
+  $scope.utilityCards = [{'icon':'','controller':'HomeController','link':'cs.php','title':'Alumni'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Blog'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Collaborate'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Discussion'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Documents'},{'icon':'','controller':'HomeController','link':'cs.php','title':'E-mail'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Event Creation'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Forms'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Gallery'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Google Docs'},{'icon':'','controller':'HomeController','link':'cs.php','title':'News'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Poll'},{'icon':'','controller':'HomeController','link':'cs.php','title':'Tasks'}];
 
   $scope.setActiveModulePage = function (view) {
     $scope.activeModulesView = view;
@@ -213,73 +244,7 @@ app.controller('SettingsController', function ($rootScope,$scope, $timeout, $mdS
     $scope.setActiveSettingsView('none');
   }
   $scope.studentCategory = [{'name':'Staff child'},{'name':'Financially Weak student'},{'name':'Sibling In Institution'}];
-  $scope.courseBatches = [{
-                          	"sNo": "1",
-                          	"name": "Diploma in Theatre Semester 1(GPA)",
-                          	"code": "DT Sem1",
-                          	"batch": "0",
-                          	"student":"0"
-                          }, {
-                          	"sNo": "2",
-                          	"name": "Diploma in Theatre Semester 2(GPA)",
-                          	"code": "DT Sem2",
-                          	"batch": "0",
-                          	"student":"0"
-                          }, {
-                          	"sNo": "3",
-                          	"name": "Diploma in Theatre Semester 3(GPA)",
-                          	"code": "DT Sem3",
-                          	"batch": "0",
-                          	"student":"0"
-                          }, {
-                          	"sNo": "4",
-                          	"name": "Diploma in Theatre Semester 4(GPA)",
-                          	"code": "DT Sem4",
-                          	"batch": "0",
-                          	"student":"0"
-                          }, {
-                          	"sNo": "5",
-                          	"name": "Diploma in Theatre Semester 5(GPA)",
-                          	"code": "DT Sem5",
-                          	"batch": "0",
-                          	"student":"0"
-                          }, {
-                          	"sNo": "6",
-                          	"name": "Diploma in Theatre Semester 6(GPA)",
-                          	"code": "DT Sem6",
-                          	"batch": "1",
-                          	"student":"5"
-                          }, {
-                          	"sNo": "7",
-                          	"name": "Grade 1(Normal)",
-                          	"code": "G1",
-                          	"batch": "1",
-                          	"student":"11"
-                          }, {
-                          	"sNo": "8",
-                          	"name": "Grade 2(GPA)",
-                          	"code": "G2",
-                          	"batch": "1",
-                          	"student":"10"
-                          }, {
-                          	"sNo": "9",
-                          	"name": "Grade 3(CWA)",
-                          	"code": "G3",
-                          	"batch": "1",
-                          	"student":"10"
-                          }, {
-                          	"sNo": "10",
-                          	"name": "Grade 4(CSE)",
-                          	"code": "G4",
-                          	"batch": "1",
-                          	"student":"10"
-                          }, {
-                          	"sNo": "11",
-                          	"name": "Grade 5(CCE)",
-                          	"code": "G5",
-                          	"batch": "1",
-                          	"student":"10"
-                          }];
+  $scope.courseBatches = [{"sNo":"1","name":"Diploma in Theatre Semester 1(GPA)","code":"DT Sem1","batch":"0","student":"0"},{"sNo":"2","name":"Diploma in Theatre Semester 2(GPA)","code":"DT Sem2","batch":"0","student":"0"},{"sNo":"3","name":"Diploma in Theatre Semester 3(GPA)","code":"DT Sem3","batch":"0","student":"0"},{"sNo":"4","name":"Diploma in Theatre Semester 4(GPA)","code":"DT Sem4","batch":"0","student":"0"},{"sNo":"5","name":"Diploma in Theatre Semester 5(GPA)","code":"DT Sem5","batch":"0","student":"0"},{"sNo":"6","name":"Diploma in Theatre Semester 6(GPA)","code":"DT Sem6","batch":"1","student":"5"},{"sNo":"7","name":"Grade 1(Normal)","code":"G1","batch":"1","student":"11"},{"sNo":"8","name":"Grade 2(GPA)","code":"G2","batch":"1","student":"10"},{"sNo":"9","name":"Grade 3(CWA)","code":"G3","batch":"1","student":"10"},{"sNo":"10","name":"Grade 4(CSE)","code":"G4","batch":"1","student":"10"},{"sNo":"11","name":"Grade 5(CCE)","code":"G5","batch":"1","student":"10"}];
 
 });
 
@@ -313,107 +278,7 @@ app.controller('HostelController', function ($rootScope,$scope,$timeout) {
 
   $scope.allHostels = [{"name": "G1","type": "Gents","info": ""},{"name": "L1","type": "Ladies","info": ""}];
 
-  $scope.rooms = [{
-                	"rNo": "r1",
-                	"spr": "4",
-                	"availability": "2",
-                	"rent": "2500"
-                }, {
-                	"rNo": "r2",
-                	"spr": "4",
-                	"availability": "2",
-                	"rent": "2500"
-                }, {
-                	"rNo": "r3",
-                	"spr": "4",
-                	"availability": "2",
-                	"rent": "2500"
-                }, {
-                	"rNo": "r4",
-                	"spr": "4",
-                	"availability": "2",
-                	"rent": "2500"
-                }, {
-                	"rNo": "r5",
-                	"spr": "4",
-                	"availability": "2",
-                	"rent": "2500"
-                }, {
-                	"rNo": "r6",
-                	"spr": "3",
-                	"availability": "3",
-                	"rent": "3000"
-                }, {
-                	"rNo": "r7",
-                	"spr": "3",
-                	"availability": "3",
-                	"rent": "3000"
-                }, {
-                	"rNo": "r8",
-                	"spr": "3",
-                	"availability": "2",
-                	"rent": "3000"
-                }, {
-                	"rNo": "r9",
-                	"spr": "3",
-                	"availability": "2",
-                	"rent": "3000"
-                }, {
-                	"rNo": "r10",
-                	"spr": "3",
-                	"availability": "1",
-                	"rent": "2500"
-                }, {
-                	"rNo": "r11",
-                	"spr": "2",
-                	"availability": "2",
-                	"rent": "3500"
-                }, {
-                	"rNo": "r12",
-                	"spr": "2",
-                	"availability": "2",
-                	"rent": "3500"
-                }, {
-                	"rNo": "r13",
-                	"spr": "2",
-                	"availability": "2",
-                	"rent": "3500"
-                }, {
-                	"rNo": "r14",
-                	"spr": "2",
-                	"availability": "1",
-                	"rent": "3500"
-                }, {
-                	"rNo": "r15",
-                	"spr": "2",
-                	"availability": "1",
-                	"rent": "3500"
-                }, {
-                	"rNo": "r16",
-                	"spr": "1",
-                	"availability": "1",
-                	"rent": "4000"
-                }, {
-                	"rNo": "r17",
-                	"spr": "1",
-                	"availability": "1",
-                	"rent": "4000"
-                }, {
-                	"rNo": "r18",
-                	"spr": "1",
-                	"availability": "1",
-                	"rent": "4000"
-                }, {
-                	"rNo": "r19",
-                	"spr": "1",
-                	"availability": "1",
-                	"rent": "4000"
-                }, {
-                	"rNo": "r20",
-                	"spr": "1",
-                	"availability": "1",
-                	"rent": "4000"
-                }];
+  $scope.rooms = [{"rNo":"r1","spr":"4","availability":"2","rent":"2500"},{"rNo":"r2","spr":"4","availability":"2","rent":"2500"},{"rNo":"r3","spr":"4","availability":"2","rent":"2500"},{"rNo":"r4","spr":"4","availability":"2","rent":"2500"},{"rNo":"r5","spr":"4","availability":"2","rent":"2500"},{"rNo":"r6","spr":"3","availability":"3","rent":"3000"},{"rNo":"r7","spr":"3","availability":"3","rent":"3000"},{"rNo":"r8","spr":"3","availability":"2","rent":"3000"},{"rNo":"r9","spr":"3","availability":"2","rent":"3000"},{"rNo":"r10","spr":"3","availability":"1","rent":"2500"},{"rNo":"r11","spr":"2","availability":"2","rent":"3500"},{"rNo":"r12","spr":"2","availability":"2","rent":"3500"},{"rNo":"r13","spr":"2","availability":"2","rent":"3500"},{"rNo":"r14","spr":"2","availability":"1","rent":"3500"},{"rNo":"r15","spr":"2","availability":"1","rent":"3500"},{"rNo":"r16","spr":"1","availability":"1","rent":"4000"},{"rNo":"r17","spr":"1","availability":"1","rent":"4000"},{"rNo":"r18","spr":"1","availability":"1","rent":"4000"},{"rNo":"r19","spr":"1","availability":"1","rent":"4000"},{"rNo":"r20","spr":"1","availability":"1","rent":"4000"}];
 
 })
 
@@ -484,4 +349,88 @@ app.controller('OnlinePaymentController', function ($rootScope,$scope,$timeout) 
   }
 
   $scope.customGateways = [{'name':'CC Avenue','status':'Active'},{'name':'PayUMoney','status':'Inactive'}];
+})
+
+app.controller('ReportsController', function ($rootScope,$scope,$timeout) {
+
+  $scope.moduleSubMenu = [{"title":"Course / Batch Details","tag":"Generates Course / Batch Details","link":"drcbd"},{"title":"Former students Details","tag":"Generates Former students Details","link":"drfsd"},{"title":"Former Employees Details","tag":"Generates Former Employees Details","link":"drfed"},{"title":"Subject Details","tag":"Generates Subject Details","link":"drsd"},{"title":"Employee Subject Association Details","tag":"Generates Employee subject association Details","link":"dresad"},{"title":"Employee Payroll Details","tag":"Generates Employee Payroll Details","link":"drepd"},{"title":"Exam Schedule Details","tag":"Generates Exam Schedule Details","link":"dresd"},{"title":"Fee collection Details","tag":"Generates Fee collection Details","link":"drfcd"},{"title":"Fees Defaulters Details","tag":"Generates Fees Defaulters Details","link":"drfdd"},{"title":"Students Fees Defaulters Details","tag":"Generates Students Fees Defaulters Details","link":"drsfdd"},{"title":"Students Fees Head-wise Report","tag":"Generates Students Fees Head-wise Report","link":"drsfr"}];
+
+  if (window.localStorage['activeUser'] == null || window.localStorage['activeUser'] == undefined || window.localStorage['activeUser']== ""){
+      window.location.href = "login.php";
+    } else {
+      $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
+      console.log('activeUser',$rootScope.activeUser);
+  }
+
+  $scope.setActiveReportsView = function (view) {
+    $scope.activeReportsView = view;
+    console.log('activeReportsView',view);
+    window.localStorage['activeReportsView'] = view;
+  }
+
+  if (window.localStorage['activeReportsView'] == null || window.localStorage['activeReportsView'] == undefined || window.localStorage['activeReportsView']== ""){
+    $scope.setActiveReportsView('none');
+  } else {
+    $scope.setActiveReportsView(window.localStorage['activeReportsView']);
+  }
+
+  $scope.courseBatchDetails = [{"sNo":"1","name":"Diploma in Theatre Semester 1(GPA)","code":"DT Sem1","batch":"0","student":"0"},{"sNo":"2","name":"Diploma in Theatre Semester 2(GPA)","code":"DT Sem2","batch":"0","student":"0"},{"sNo":"3","name":"Diploma in Theatre Semester 3(GPA)","code":"DT Sem3","batch":"0","student":"0"},{"sNo":"4","name":"Diploma in Theatre Semester 4(GPA)","code":"DT Sem4","batch":"0","student":"0"},{"sNo":"5","name":"Diploma in Theatre Semester 5(GPA)","code":"DT Sem5","batch":"0","student":"0"},{"sNo":"6","name":"Diploma in Theatre Semester 6(GPA)","code":"DT Sem6","batch":"1","student":"5"},{"sNo":"7","name":"Grade 1(Normal)","code":"G1","batch":"1","student":"11"},{"sNo":"8","name":"Grade 2(GPA)","code":"G2","batch":"1","student":"10"},{"sNo":"9","name":"Grade 3(CWA)","code":"G3","batch":"1","student":"10"},{"sNo":"10","name":"Grade 4(CSE)","code":"G4","batch":"1","student":"10"},{"sNo":"11","name":"Grade 5(CCE)","code":"G5","batch":"1","student":"10"}];
+
+  $scope.formerStudentDetails = [{"studentName":"aadesh","fatherName":"bachan","motherName":"devi","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"bachan@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"1","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"aashirya","fatherName":"ravi","motherName":"pooja","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"pooja@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"1","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"abhay","fatherName":"North Anjaneya Temple Street,Basavanagudi,Bangalore-4","motherName":"NGEF Premises, Old Madras Road,Bangalore","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"Abhay.hcl@gmail.com","currentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","permanentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","birthday":"24-04-1993","age":"21","location":"bangalor","course":"abc","batch":"1","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"mohan","fatherName":"shakar","motherName":"priya","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"shakar@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"1","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"ramya","fatherName":"ganesh","motherName":"hema","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"ganesh@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"1","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"gopi","fatherName":"tagor","motherName":"prasanna","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"tagor@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"2","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"kalpana","fatherName":"venkateawararao","motherName":"santhi","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"venky@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"2","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"vinay","fatherName":"charan","motherName":"uma","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"charan@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"2","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"senha","fatherName":"ravikumar","motherName":"sindhu","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"ravikumar@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"2","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"prasanna","fatherName":"ramexh","motherName":"ganga","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"ramesh@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"2","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"tejaswani","fatherName":"srinivas","motherName":"jhansi","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"pooja@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"3","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"saivinela","fatherName":"harish","motherName":"vineetha","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"bachan@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"3","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"bhavan","fatherName":"praveen","motherName":"meghana","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"pooja@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"3","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"abiyaram","fatherName":"tarakramarao","motherName":"lakshmi","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"tarak@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"3","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"aashirya","fatherName":"ravi","motherName":"pooja","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"pooja@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"3","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"vijay","fatherName":"govindaraju","motherName":"devi","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"raju@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"4","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"chandu","fatherName":"muralikrishna","motherName":"komali","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"komali@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"4","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"vishwak","fatherName":"ganesh","motherName":"koteswari","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"ganesh@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"4","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"lakshminarayana","fatherName":"sivanarayana","motherName":"pramella","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"siva@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"4","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"tejasree","fatherName":"Ist Floor, ESID Bldg. IInd Cross, OTC Road, B’lore-53","motherName":"ESID Bldg, Ist Cross, Magadi Road, Bangalore-23","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"teja@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"single","location":"bangalor","course":"abc","batch":"4","joiningDate":"01-01-2017","bloodGroup":"ab+"}];
+
+})
+
+app.controller('ApplicantRegistrationController', function ($rootScope, $scope, $timeout) {
+  console.log('loading registration controller');
+})
+
+app.controller('AttendanceController', function ($rootScope,$scope,$timeout) {
+
+  $scope.moduleSubMenu = [{"title":"Attendance Register","tag":"Attendance register for Students","link":"acarr"},{"title":"Attendance Report","tag":"Attendance report of Students","link":"acart"},{"title":"Day-wise Attendance Report","tag":"Day-wise Attendance Report","link":"acdwar"}];
+
+  if (window.localStorage['activeUser'] == null || window.localStorage['activeUser'] == undefined || window.localStorage['activeUser']== ""){
+      window.location.href = "login.php";
+    } else {
+      $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
+      console.log('activeUser',$rootScope.activeUser);
+  }
+
+  $scope.setActiveAttendanceView = function (view) {
+    $scope.activeAttendanceView = view;
+    console.log('activeAttendanceView',view);
+    window.localStorage['activeAttendanceView'] = view;
+  }
+
+  if (window.localStorage['activeAttendanceView'] == null || window.localStorage['activeAttendanceView'] == undefined || window.localStorage['activeAttendanceView']== ""){
+    $scope.setActiveAttendanceView('none');
+  } else {
+    $scope.setActiveAttendanceView(window.localStorage['activeAttendanceView']);
+  }
+
+  $scope.courseBatchDetails = [{"sNo":"1","name":"Diploma in Theatre Semester 1(GPA)","code":"DT Sem1","batch":"0","student":"0"},{"sNo":"2","name":"Diploma in Theatre Semester 2(GPA)","code":"DT Sem2","batch":"0","student":"0"},{"sNo":"3","name":"Diploma in Theatre Semester 3(GPA)","code":"DT Sem3","batch":"0","student":"0"},{"sNo":"4","name":"Diploma in Theatre Semester 4(GPA)","code":"DT Sem4","batch":"0","student":"0"},{"sNo":"5","name":"Diploma in Theatre Semester 5(GPA)","code":"DT Sem5","batch":"0","student":"0"},{"sNo":"6","name":"Diploma in Theatre Semester 6(GPA)","code":"DT Sem6","batch":"1","student":"5"},{"sNo":"7","name":"Grade 1(Normal)","code":"G1","batch":"1","student":"11"},{"sNo":"8","name":"Grade 2(GPA)","code":"G2","batch":"1","student":"10"},{"sNo":"9","name":"Grade 3(CWA)","code":"G3","batch":"1","student":"10"},{"sNo":"10","name":"Grade 4(CSE)","code":"G4","batch":"1","student":"10"},{"sNo":"11","name":"Grade 5(CCE)","code":"G5","batch":"1","student":"10"}];
+
+  $scope.formerStudentDetails = [{"studentName":"aadesh","fatherName":"bachan","motherName":"devi","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"bachan@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"1","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"aashirya","fatherName":"ravi","motherName":"pooja","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"pooja@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"1","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"abhay","fatherName":"North Anjaneya Temple Street,Basavanagudi,Bangalore-4","motherName":"NGEF Premises, Old Madras Road,Bangalore","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"Abhay.hcl@gmail.com","currentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","permanentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","birthday":"24-04-1993","age":"21","location":"bangalor","course":"abc","batch":"1","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"mohan","fatherName":"shakar","motherName":"priya","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"shakar@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"1","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"ramya","fatherName":"ganesh","motherName":"hema","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"ganesh@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"1","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"gopi","fatherName":"tagor","motherName":"prasanna","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"tagor@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"2","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"kalpana","fatherName":"venkateawararao","motherName":"santhi","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"venky@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"2","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"vinay","fatherName":"charan","motherName":"uma","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"charan@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"2","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"senha","fatherName":"ravikumar","motherName":"sindhu","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"ravikumar@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"2","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"prasanna","fatherName":"ramexh","motherName":"ganga","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"ramesh@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"2","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"tejaswani","fatherName":"srinivas","motherName":"jhansi","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"pooja@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"3","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"saivinela","fatherName":"harish","motherName":"vineetha","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"bachan@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"3","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"bhavan","fatherName":"praveen","motherName":"meghana","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"pooja@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"3","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"abiyaram","fatherName":"tarakramarao","motherName":"lakshmi","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"tarak@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"3","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"aashirya","fatherName":"ravi","motherName":"pooja","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"pooja@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"3","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"vijay","fatherName":"govindaraju","motherName":"devi","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"raju@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"4","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"chandu","fatherName":"muralikrishna","motherName":"komali","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"komali@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"4","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"vishwak","fatherName":"ganesh","motherName":"koteswari","phone":"9999123999","alternativePhone":"9494123944","parentEmail":"ganesh@gmail.com","currentAddress":"IstFloor,ESI Disp.Bldg, peenya,Bangalore – 560 058","permanentAddress":"IIIrd phase, Peenya, Bangalore-58","birthday":"24-04-1993","age":"17","location":"bangalor","course":"abc","batch":"4","joiningDate":"01-01-2017","bloodGroup":"b+"},{"studentName":"lakshminarayana","fatherName":"sivanarayana","motherName":"pramella","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"siva@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"20","location":"bangalor","course":"abc","batch":"4","joiningDate":"01-01-2017","bloodGroup":"ab+"},{"studentName":"tejasree","fatherName":"Ist Floor, ESID Bldg. IInd Cross, OTC Road, B’lore-53","motherName":"ESID Bldg, Ist Cross, Magadi Road, Bangalore-23","phone":"8812388123","alternativePhone":"77991239977","parentEmail":"teja@gmail.com","currentAddress":"2nd Floor, ESID Bldg. Sirur Park Road,Seshadripuram, Bangalore-20","permanentAddress":"2nd Floor, 7th Cross, Goutham Nagar,Srirampuram, Bangalore-21","birthday":"03-08-1990","age":"single","location":"bangalor","course":"abc","batch":"4","joiningDate":"01-01-2017","bloodGroup":"ab+"}];
+
+
+  $scope.attendanceReport = [
+                          {"studentName":"aadesh","batch":"1","month":"June","year":"2017","noOfLeaves":"4"},
+                          {"studentName":"aashirya","batch":"1","month":"June","year":"2017","noOfLeaves":"2"},
+                          {"studentName":"abhay","batch":"1","month":"June","year":"2017","noOfLeaves":"1"},
+                          {"studentName":"mohan","batch":"1","month":"June","year":"2017","noOfLeaves":"7"},
+                          {"studentName":"ramya","batch":"1","month":"June","year":"2017","noOfLeaves":"4"},
+                          {"studentName":"gopi","batch":"1","month":"June","year":"2017","noOfLeaves":"2"},
+                          {"studentName":"kalpana","batch":"1","month":"June","year":"2017","noOfLeaves":"0"},
+                          {"studentName":"vinay","batch":"1","month":"June","year":"2017","noOfLeaves":"1"},
+                          {"studentName":"senha","batch":"1","month":"June","year":"2017","noOfLeaves":"2"},
+                          {"studentName":"prasanna","batch":"1","month":"June","year":"2017","noOfLeaves":"4"},
+                          {"studentName":"tejaswani","batch":"1","month":"June","year":"2017","noOfLeaves":"8"},
+                          {"studentName":"saivinela","batch":"1","month":"June","year":"2017","noOfLeaves":"3"},
+                          {"studentName":"bhavan","batch":"1","month":"June","year":"2017","noOfLeaves":"6"},
+                          {"studentName":"abiyaram","batch":"1","month":"June","year":"2017","noOfLeaves":"9"},
+                          {"studentName":"aashirya","batch":"1","month":"June","year":"2017","noOfLeaves":"4"},
+                          {"studentName":"vijay","batch":"1","month":"June","year":"2017","noOfLeaves":"5"},
+                          {"studentName":"chandu","batch":"1","month":"June","year":"2017","noOfLeaves":"7"},
+                          {"studentName":"vishwak","batch":"1","month":"June","year":"2017","noOfLeaves":"3"},
+                          {"studentName":"lakshminarayana","batch":"1","month":"June","year":"2017","noOfLeaves":"5"}
+                        ];
 })

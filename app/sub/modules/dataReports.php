@@ -5,19 +5,19 @@
     </div>
     <div class="col-md-10">
       <ul id="moduleSubMenu" class="customScroll">
-        <a href="{{menu.link}}" ng-repeat="menu in dataReportsCards" ng-click="setActiveSettingsView(menu.link)"><li>{{menu.title}}</li></a>
+        <a href="{{menu.link}}" ng-repeat="menu in dataReportsCards" ng-click="setActiveReportsView(menu.link)"><li>{{menu.title}}</li></a>
       </ul>
     </div>
   </div>
   <div id="BreadCrumb">
     <ul>
       <a href="index.php"><li style="display:inline">Home</li></a> >
-      <a ng-click="setActiveSettingsView('none')"><li style="display:inline">Collabration</li></a>
+      <a ng-click="setActiveReportsView('none')"><li style="display:inline">Data and Reports</li></a>
     </ul>
   </div>
   <div id="pageBackground" class="row center">
     <div class="col-md-4 pad-10" ng-repeat="card in dataReportsCards">
-      <div class="dashCard" id="card.title" ng-click="setActiveSettingsView(card.link)" style="height:120px;">
+      <div class="dashCard" id="card.title" ng-click="setActiveReportsView(card.link)" style="height:120px;">
         <a href="{{card.link}}" style="color:black;text-decoration:none;">
           <div style="pad-20">
               <span><b>{{card.title}}</b></span>
