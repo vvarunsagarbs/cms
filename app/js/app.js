@@ -1,7 +1,7 @@
 var app = angular.module('myWebApp',['ngMaterial']);
 
 app.run(function($http, $rootScope, $timeout) {
-  //console.log('App Starts');
+  console.log('App Starts');
 
   $rootScope.logoutActiveUser = function () {
     $rootScope.activeUser = '';
@@ -10,7 +10,7 @@ app.run(function($http, $rootScope, $timeout) {
   }
 
   $rootScope.setActiveSubNav = function (view) {
-    //console.log('activeSubNav', view);
+    console.log('activeSubNav', view);
     $rootScope.activeSubNav = view;
   }
 
@@ -90,19 +90,19 @@ app.run(function($http, $rootScope, $timeout) {
 })
 
 app.controller('HomeController', function($rootScope, $scope, $http, $timeout, $mdSidenav, $log) {
-  //console.log('Loading Home Controller..');
+  console.log('Loading Home Controller..');
   $scope.users = [{'name':'admin','password':'admin123','type':'a'},{'name':'employee','password':'employee123','type':'e'},{'name':'student','password':'student123','type':'s'},{'name':'parent','password':'parent123','type':'p'}];
 
   $scope.loginUser = function (loginData) {
     angular.forEach($scope.users, function(value, key) {
-      // //console.log(key + ': ' + value.name+ ', ' + value.password);
+      // console.log(key + ': ' + value.name+ ', ' + value.password);
       if (loginData.username == value.name ) {
-        //console.log('username found');
+        console.log('username found');
         if (value.password == loginData.password) {
-          //console.log('login success');
+          console.log('login success');
           $rootScope.activeUser = value;
           window.localStorage['activeUser'] = JSON.stringify($rootScope.activeUser);
-          //console.log('activeUser',$rootScope.activeUser);
+          console.log('activeUser',$rootScope.activeUser);
           window.location.href="index.php";
         }
       }
@@ -111,38 +111,38 @@ app.controller('HomeController', function($rootScope, $scope, $http, $timeout, $
 });
 
 app.controller('SideBarController', function ($rootScope,$scope, $timeout, $mdSidenav, $log) {
-  //console.log('Loading SideBarController');
+  console.log('Loading SideBarController');
 
   $scope.setActiveSubNavView = function(view) {
-    //console.log('activeSubNavView',view);
+    console.log('activeSubNavView',view);
     $scope.activeSubNavView = view;
     window.localStorage['activeSubNavView'] = view;
-    //console.log('window.localStorage["activeSubNavView"]', window.localStorage['activeSubNavView']);
+    console.log('window.localStorage["activeSubNavView"]', window.localStorage['activeSubNavView']);
   }
 
   if(window.localStorage['activeSubNavView'] == undefined || window.localStorage['activeSubNavView'] == null || window.localStorage['activeSubNavView'] == '') {
     $scope.setActiveSubNavView('none');
-    //console.log('reset');
+    console.log('reset');
     } else {
     $scope.setActiveSubNavView(window.localStorage['activeSubNavView']);
-    //console.log('sourced');
+    console.log('sourced');
   }
 
-  $scope.administrationSubmenu = [{'icon':'','link':'settings.php','title':'Settings'},{'icon':'','link':'','title':'Hostel'},{'icon':'','link':'','title':'Human Resource'},{'icon':'','link':'','title':'Inventory'},{'icon':'','link':'','title':'Online Payment'},{'icon':'','link':'','title':'Reminders'},{'icon':'','link':'','title':'Finance'},{'icon':'','link':'','title':'Transport'},{'icon':'','link':'','title':'User'}];
-  $scope.academicsSubmenu = [{'icon':'','link':'','title':'Applicant Registration'},{'icon':'','link':'','title':'Attendence'},{'icon':'','link':'','title':'Batch Summary'},{'icon':'','link':'','title':'Calender'},{'icon':'','link':'','title':'Discipline'},{'icon':'','link':'','title':'Examination'},{'icon':'','link':'','title':'Leaves'},{'icon':'','link':'','title':'Library'},{'icon':'','link':'','title':'My Profile'},{'icon':'','link':'','title':'Placement'},{'icon':'','link':'','title':'Remarks'},{'icon':'','link':'','title':'Student Records'},{'icon':'','link':'','title':'Students'},{'icon':'','link':'','title':'Timetable'},{'icon':'','link':'','title':'Transfer Certificate'}];
-  $scope.dataReportsSubmenu = [{'icon':'','link':'','title':'Custom Imports'},{'icon':'','link':'','title':'Custom Reports'},{'icon':'','link':'','title':'Data Exports'},{'icon':'','link':'','title':'Data Management'},{'icon':'','link':'','title':'Audit'},{'icon':'','link':'','title':'Reports'}];
-  $scope.collabrationSubmenu = [{'icon':'','link':'','title':'Alumni'},{'icon':'','link':'','title':'Blog'},{'icon':'','link':'','title':'Collaborate'},{'icon':'','link':'','title':'Discussion'},{'icon':'','link':'','title':'Documents'},{'icon':'','link':'','title':'E-mail'},{'icon':'','link':'','title':'Event Creation'},{'icon':'','link':'','title':'Forms'},{'icon':'','link':'','title':'Gallery'},{'icon':'','link':'','title':'Google Docs'},{'icon':'','link':'','title':'News'},{'icon':'','link':'','title':'Poll'},{'icon':'','link':'','title':'Tasks'}];
+  $scope.administrationSubmenu = [{'icon':'','controller':'SettingsController','link':'settings.php','title':'Settings'},{'icon':'','controller':'HostelController','link':'hostel.php','title':'Hostel'},{'icon':'','controller':'HRController','link':'hr.php','title':'Human Resource'},{'icon':'','controller':'OnlinePaymentController','link':'onlinePayment.php','title':'Online Payment'},{'icon':'','controller':'HomeController','link':'','title':'Inventory'},{'icon':'','controller':'HomeController','link':'','title':'Reminders'},{'icon':'','controller':'HomeController','link':'','title':'Finance'},{'icon':'','controller':'HomeController','link':'','title':'Transport'},{'icon':'','controller':'HomeController','link':'','title':'User'}];
+  $scope.academicsSubmenu = [{'icon':'','controller':'HomeController','link':'','title':'Applicant Registration'},{'icon':'','controller':'HomeController','link':'','title':'Attendence'},{'icon':'','controller':'HomeController','link':'','title':'Batch Summary'},{'icon':'','controller':'HomeController','link':'','title':'Calender'},{'icon':'','controller':'HomeController','link':'','title':'Discipline'},{'icon':'','controller':'HomeController','link':'','title':'Examination'},{'icon':'','controller':'HomeController','link':'','title':'Leaves'},{'icon':'','controller':'HomeController','link':'','title':'Library'},{'icon':'','controller':'HomeController','link':'','title':'My Profile'},{'icon':'','controller':'HomeController','link':'','title':'Placement'},{'icon':'','controller':'HomeController','link':'','title':'Remarks'},{'icon':'','controller':'HomeController','link':'','title':'Student Records'},{'icon':'','controller':'HomeController','link':'','title':'Students'},{'icon':'','controller':'HomeController','link':'','title':'Timetable'},{'icon':'','controller':'HomeController','link':'','title':'Transfer Certificate'}];
+  $scope.dataReportsSubmenu = [{'icon':'','controller':'HomeController','link':'','title':'Custom Imports'},{'icon':'','controller':'HomeController','link':'','title':'Custom Reports'},{'icon':'','controller':'HomeController','link':'','title':'Data Exports'},{'icon':'','controller':'HomeController','link':'','title':'Data Management'},{'icon':'','controller':'HomeController','link':'','title':'Audit'},{'icon':'','controller':'HomeController','link':'','title':'Reports'}];
+  $scope.collabrationSubmenu = [{'icon':'','controller':'HomeController','link':'','title':'Alumni'},{'icon':'','controller':'HomeController','link':'','title':'Blog'},{'icon':'','controller':'HomeController','link':'','title':'Collaborate'},{'icon':'','controller':'HomeController','link':'','title':'Discussion'},{'icon':'','controller':'HomeController','link':'','title':'Documents'},{'icon':'','controller':'HomeController','link':'','title':'E-mail'},{'icon':'','controller':'HomeController','link':'','title':'Event Creation'},{'icon':'','controller':'HomeController','link':'','title':'Forms'},{'icon':'','controller':'HomeController','link':'','title':'Gallery'},{'icon':'','controller':'HomeController','link':'','title':'Google Docs'},{'icon':'','controller':'HomeController','link':'','title':'News'},{'icon':'','controller':'HomeController','link':'','title':'Poll'},{'icon':'','controller':'HomeController','link':'','title':'Tasks'}];
 
 });
 
 app.controller('DashboardController', function ($rootScope,$scope, $timeout, $mdSidenav, $log) {
-  //console.log('Loading DashboardController');
+  console.log('Loading DashboardController');
 
   if (window.localStorage['activeUser'] == null || window.localStorage['activeUser'] == undefined || window.localStorage['activeUser']== ""){
     window.location.href = "login.php";
   } else {
     $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
-    //console.log('activeUser',$rootScope.activeUser);
+    console.log('activeUser',$rootScope.activeUser);
   }
 
   $scope.aDashCardsLeft = [{"title":"Discussions","content":"No Data to Display","active":"true"},{"title":"Finance","content":"No Data to Display","active":"true"},{"title":"Timetable","content":"No Data to Display","active":"true"}];
@@ -162,21 +162,44 @@ app.controller('DashboardController', function ($rootScope,$scope, $timeout, $md
   $scope.eDashCardsRight = [{"title":"Timetable","content":"No Data to Display","active":"true"}];
 });
 
+app.controller('ModuleController', function ($rootScope, $scope, $timeout) {
+  console.log('Loading ModuleController...');
+
+  $scope.administrationCards = [{'icon':'','controller':'HomeController','link':'settings.php','title':'Settings'},{'icon':'','controller':'HostelController','link':'hostel.php','title':'Hostel'},{'icon':'','controller':'HRController','link':'hr.php','title':'Human Resource'},{'icon':'','controller':'OnlinePaymentController','link':'onlinePayment.php','title':'Online Payment'},{'icon':'','controller':'HomeController','link':'','title':'Inventory'},{'icon':'','controller':'HomeController','link':'','title':'Reminders'},{'icon':'','controller':'HomeController','link':'','title':'Finance'},{'icon':'','controller':'HomeController','link':'','title':'Transport'},{'icon':'','controller':'HomeController','link':'','title':'User'}];
+
+  $scope.academicsCards = [{'icon':'','controller':'HomeController','link':'','title':'Applicant Registration'},{'icon':'','controller':'HomeController','link':'','title':'Attendence'},{'icon':'','controller':'HomeController','link':'','title':'Batch Summary'},{'icon':'','controller':'HomeController','link':'','title':'Calender'},{'icon':'','controller':'HomeController','link':'','title':'Discipline'},{'icon':'','controller':'HomeController','link':'','title':'Examination'},{'icon':'','controller':'HomeController','link':'','title':'Leaves'},{'icon':'','controller':'HomeController','link':'','title':'Library'},{'icon':'','controller':'HomeController','link':'','title':'My Profile'},{'icon':'','controller':'HomeController','link':'','title':'Placement'},{'icon':'','controller':'HomeController','link':'','title':'Remarks'},{'icon':'','controller':'HomeController','link':'','title':'Student Records'},{'icon':'','controller':'HomeController','link':'','title':'Students'},{'icon':'','controller':'HomeController','link':'','title':'Timetable'},{'icon':'','controller':'HomeController','link':'','title':'Transfer Certificate'}];
+
+  $scope.dataReportsCards = [{'icon':'','controller':'HomeController','link':'','title':'Custom Imports'},{'icon':'','controller':'HomeController','link':'','title':'Custom Reports'},{'icon':'','controller':'HomeController','link':'','title':'Data Exports'},{'icon':'','controller':'HomeController','link':'','title':'Data Management'},{'icon':'','controller':'HomeController','link':'','title':'Audit'},{'icon':'','controller':'HomeController','link':'','title':'Reports'}];
+
+  $scope.collabrationCards = [{'icon':'','controller':'HomeController','link':'','title':'Alumni'},{'icon':'','controller':'HomeController','link':'','title':'Blog'},{'icon':'','controller':'HomeController','link':'','title':'Collaborate'},{'icon':'','controller':'HomeController','link':'','title':'Discussion'},{'icon':'','controller':'HomeController','link':'','title':'Documents'},{'icon':'','controller':'HomeController','link':'','title':'E-mail'},{'icon':'','controller':'HomeController','link':'','title':'Event Creation'},{'icon':'','controller':'HomeController','link':'','title':'Forms'},{'icon':'','controller':'HomeController','link':'','title':'Gallery'},{'icon':'','controller':'HomeController','link':'','title':'Google Docs'},{'icon':'','controller':'HomeController','link':'','title':'News'},{'icon':'','controller':'HomeController','link':'','title':'Poll'},{'icon':'','controller':'HomeController','link':'','title':'Tasks'}];
+
+  $scope.setActiveModulePage = function (view) {
+    $scope.activeModulesView = view;
+    console.log('activeModulesView',view);
+    window.localStorage['activeModulesView'] = view;
+  }
+  if (window.localStorage['activeModulesView'] == null || window.localStorage['activeModulesView'] == undefined || window.localStorage['activeModulesView']== ""){
+    $scope.setActiveModulePage('none');
+  } else {
+    $scope.setActiveModulePage(window.localStorage['activeModulesView']);
+  }
+})
+
 app.controller('SettingsController', function ($rootScope,$scope, $timeout, $mdSidenav, $log) {
-  //console.log('Loading SettingsController');
+  console.log('Loading SettingsController');
 
   if (window.localStorage['activeUser'] == null || window.localStorage['activeUser'] == undefined || window.localStorage['activeUser']== ""){
-    window.location.href = "login.php";
-  } else {
-    $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
-    //console.log('activeUser',$rootScope.activeUser);
+      window.location.href = "login.php";
+    } else {
+      $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
+      console.log('activeUser',$rootScope.activeUser);
   }
 
   $scope.moduleSubMenu = [{"title":"Course/ Batch","tag":"Add a new course or batch for this academic year","link":"mcb"},{"title":"Subjects","tag":"Manage subjects coresponding to different courses","link":"ms"},{"title":"Student Category","tag":"Add Student Category","link":"msc"},{"title":"Additional Admission Details","tag":"Set Some Additional details for admission","link":"aaad"},{"title":"SMS Module","tag":"Enable/disable SMS settings","link":"sms"}];
 
   $scope.setActiveSettingsView = function (view) {
     $scope.activeSettingsView = view;
-    //console.log('activeSettingsView',view);
+    console.log('activeSettingsView',view);
     window.localStorage['activeSettingsView'] = view;
   }
 
@@ -186,6 +209,9 @@ app.controller('SettingsController', function ($rootScope,$scope, $timeout, $mdS
     $scope.setActiveSettingsView(window.localStorage['activeSettingsView']);
   }
 
+  $scope.resetToDash = function () {
+    $scope.setActiveSettingsView('none');
+  }
   $scope.studentCategory = [{'name':'Staff child'},{'name':'Financially Weak student'},{'name':'Sibling In Institution'}];
   $scope.courseBatches = [{
                           	"sNo": "1",
@@ -257,22 +283,205 @@ app.controller('SettingsController', function ($rootScope,$scope, $timeout, $mdS
 
 });
 
-app.controller('ModuleController', function ($rootScope, $scope, $timeout) {
-  //console.log('Loading ModuleController...');
+app.controller('HostelController', function ($rootScope,$scope,$timeout) {
+  console.log('Loading HostelController');
 
-  $scope.administrationCards = [{'icon':'','link':'settings.php','title':'Settings'},{'icon':'','link':'','title':'Hostel'},{'icon':'','link':'','title':'Human Resource'},{'icon':'','link':'','title':'Inventory'},{'icon':'','link':'','title':'Online Payment'},{'icon':'','link':'','title':'Reminders'},{'icon':'','link':'','title':'Finance'},{'icon':'','link':'','title':'Transport'},{'icon':'','link':'','title':'User'}];
-  $scope.academicsCards = [{'icon':'','link':'','title':'Applicant Registration'},{'icon':'','link':'','title':'Attendence'},{'icon':'','link':'','title':'Batch Summary'},{'icon':'','link':'','title':'Calender'},{'icon':'','link':'','title':'Discipline'},{'icon':'','link':'','title':'Examination'},{'icon':'','link':'','title':'Leaves'},{'icon':'','link':'','title':'Library'},{'icon':'','link':'','title':'My Profile'},{'icon':'','link':'','title':'Placement'},{'icon':'','link':'','title':'Remarks'},{'icon':'','link':'','title':'Student Records'},{'icon':'','link':'','title':'Students'},{'icon':'','link':'','title':'Timetable'},{'icon':'','link':'','title':'Transfer Certificate'}];
-  $scope.dataReportsCards = [{'icon':'','link':'','title':'Custom Imports'},{'icon':'','link':'','title':'Custom Reports'},{'icon':'','link':'','title':'Data Exports'},{'icon':'','link':'','title':'Data Management'},{'icon':'','link':'','title':'Audit'},{'icon':'','link':'','title':'Reports'}];
-  $scope.collabrationCards = [{'icon':'','link':'','title':'Alumni'},{'icon':'','link':'','title':'Blog'},{'icon':'','link':'','title':'Collaborate'},{'icon':'','link':'','title':'Discussion'},{'icon':'','link':'','title':'Documents'},{'icon':'','link':'','title':'E-mail'},{'icon':'','link':'','title':'Event Creation'},{'icon':'','link':'','title':'Forms'},{'icon':'','link':'','title':'Gallery'},{'icon':'','link':'','title':'Google Docs'},{'icon':'','link':'','title':'News'},{'icon':'','link':'','title':'Poll'},{'icon':'','link':'','title':'Tasks'}];
-
-  $scope.setActiveModulePage = function (view) {
-    $scope.activeModulesView = view;
-    //console.log('activeModulesView',view);
-    window.localStorage['activeModulesView'] = view;
+  if (window.localStorage['activeUser'] == null || window.localStorage['activeUser'] == undefined || window.localStorage['activeUser']== ""){
+      window.location.href = "login.php";
+    } else {
+      $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
+      console.log('activeUser',$rootScope.activeUser);
   }
-  if (window.localStorage['activeModulesView'] == null || window.localStorage['activeModulesView'] == undefined || window.localStorage['activeModulesView']== ""){
-    $scope.setActiveModulePage('none');
+
+  $scope.moduleSubMenu = [{"title":"Hostel","tag":"Manage Hostel Details","link":"ho"},{"title":"Rooms","tag":"Manage room details","link":"ro"},{"title":"Room Allocation","tag":"Allocate rooms to the students","link":"ra"},{"title":"Report","tag":"Generate Report","link":"re"}];
+
+  $scope.setActiveHostelView = function (view) {
+    $scope.activeHostelView = view;
+    console.log('activeHostelView',view);
+    window.localStorage['activeHostelView'] = view;
+  }
+
+  if (window.localStorage['activeHostelView'] == null || window.localStorage['activeHostelView'] == undefined || window.localStorage['activeHostelView']== ""){
+    $scope.setActiveHostelView('none');
   } else {
-    $scope.setActiveModulePage(window.localStorage['activeModulesView']);
+    $scope.setActiveHostelView(window.localStorage['activeHostelView']);
   }
+
+  $scope.resetToDash = function () {
+    $scope.setActiveHostelView('none');
+  }
+
+  $scope.allHostels = [{"name": "G1","type": "Gents","info": ""},{"name": "L1","type": "Ladies","info": ""}];
+
+  $scope.rooms = [{
+                	"rNo": "r1",
+                	"spr": "4",
+                	"availability": "2",
+                	"rent": "2500"
+                }, {
+                	"rNo": "r2",
+                	"spr": "4",
+                	"availability": "2",
+                	"rent": "2500"
+                }, {
+                	"rNo": "r3",
+                	"spr": "4",
+                	"availability": "2",
+                	"rent": "2500"
+                }, {
+                	"rNo": "r4",
+                	"spr": "4",
+                	"availability": "2",
+                	"rent": "2500"
+                }, {
+                	"rNo": "r5",
+                	"spr": "4",
+                	"availability": "2",
+                	"rent": "2500"
+                }, {
+                	"rNo": "r6",
+                	"spr": "3",
+                	"availability": "3",
+                	"rent": "3000"
+                }, {
+                	"rNo": "r7",
+                	"spr": "3",
+                	"availability": "3",
+                	"rent": "3000"
+                }, {
+                	"rNo": "r8",
+                	"spr": "3",
+                	"availability": "2",
+                	"rent": "3000"
+                }, {
+                	"rNo": "r9",
+                	"spr": "3",
+                	"availability": "2",
+                	"rent": "3000"
+                }, {
+                	"rNo": "r10",
+                	"spr": "3",
+                	"availability": "1",
+                	"rent": "2500"
+                }, {
+                	"rNo": "r11",
+                	"spr": "2",
+                	"availability": "2",
+                	"rent": "3500"
+                }, {
+                	"rNo": "r12",
+                	"spr": "2",
+                	"availability": "2",
+                	"rent": "3500"
+                }, {
+                	"rNo": "r13",
+                	"spr": "2",
+                	"availability": "2",
+                	"rent": "3500"
+                }, {
+                	"rNo": "r14",
+                	"spr": "2",
+                	"availability": "1",
+                	"rent": "3500"
+                }, {
+                	"rNo": "r15",
+                	"spr": "2",
+                	"availability": "1",
+                	"rent": "3500"
+                }, {
+                	"rNo": "r16",
+                	"spr": "1",
+                	"availability": "1",
+                	"rent": "4000"
+                }, {
+                	"rNo": "r17",
+                	"spr": "1",
+                	"availability": "1",
+                	"rent": "4000"
+                }, {
+                	"rNo": "r18",
+                	"spr": "1",
+                	"availability": "1",
+                	"rent": "4000"
+                }, {
+                	"rNo": "r19",
+                	"spr": "1",
+                	"availability": "1",
+                	"rent": "4000"
+                }, {
+                	"rNo": "r20",
+                	"spr": "1",
+                	"availability": "1",
+                	"rent": "4000"
+                }];
+
+})
+
+app.controller('HRController', function ($rootScope,$scope,$timeout) {
+  console.log('Loading HRController');
+
+  if (window.localStorage['activeUser'] == null || window.localStorage['activeUser'] == undefined || window.localStorage['activeUser']== ""){
+      window.location.href = "login.php";
+    } else {
+      $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
+      console.log('activeUser',$rootScope.activeUser);
+  }
+
+  $scope.moduleSubMenu = [{"title":"HR Settings","tag":"Set up and maintain Human Resources","link":"hrs"},{"title":"Employee Management","tag":"Add employees and manage their subject associations","link":"em"},{"title":"Employee Leave Management","tag":"Manage employee attendance and leaves","link":"elm"},{"title":"Employee Search","tag":"Search, view, and maintain employee records","link":"es"},{"title":"Payroll and Payslip Management","tag":"Set up employee payroll and generate payslips","link":"ppm"}];
+
+  $scope.HRsettings = [{"title":"Employee Category","tag":"Create and manage employee categories","link":"hrsec"},{"title":"Employee Position","tag":"Create and manage employee positions","link":"hrsep"},{"title":"Employee Department","tag":"Create and manage employee departments","link":"hrsed"},{"title":"Employee Grade","tag":"Create and manage employee grades","link":"hrseg"},{"title":"Working Day Settings","tag":"Set up employee working day settings","link":"hrswds"},{"title":"Leave Types","tag":"Add and manage employee leave types","link":"hrslt"},{"title":"Bank Details","tag":"Create and manage employee bank details","link":"hrsbd"},{"title":"Payroll Settings","tag":"Configure the payroll calculation mode","link":"hrsps"},{"title":"Additional Details","tag":"Create and manage additional details for the employee admission form","link":"hrsps"},{"title":"Leave Groups","tag":"Create leave groups to manage different leave types.","link":"hrslg"}];
+
+  $scope.employeeManagement = [{"title":"Employee Admission","tag":"Employee admission form","link":"emed"},{"title":"Employee Subject Association","tag":"Assign an employee with one or more subjects","link":"emesa"}];
+
+  $scope.employeeLeaveManagement = [{"title":"Attendance Register","tag":"Mark employee attendance","link":"elmarr"},{"title":"Attendance Report","tag":"Generate the employee attendance report for all departments","link":"elmart"},{"title":"Leave Reset","tag":"Reset employee leaves","link":"elmart"},{"title":"Leave Applications","tag":"View all employee leave applications","link":"elmla"}];
+
+  $scope.payrollAndPayslipManagement = [{"title":"Payroll Categories","tag":"Create and manage employee payroll categories","link":"ppm"},{"title":"Payroll Groups","tag":"Create and manage employee payroll groups","link":"ppmpg"},{"title":"Payslips for Payroll Groups","tag":"Generate payslips for employees of a payroll group","link":"ppmppg"},{"title":"Payslips for Employees","tag":"Generate payslips for individual employees","link":"ppmpfe"},{"title":"Rejected Payslips","tag":"Manage rejected employee payslips","link":"ppmrp"},{"title":"Payslip Settings","tag":"Configure information to be displayed in employee payslips","link":"ppmps"},{"title":"Payslip Report","tag":"View the employee payslip report","link":"ppmpr"},{"title":"Advanced Payslip Reports","tag":"Generate advanced payslip reports and save as custom templates for later use","link":"ppmapr"}];
+
+  $scope.setActiveHRView = function (view) {
+    $scope.activeHRView = view;
+    console.log('activeHRView',view);
+    window.localStorage['activeHRView'] = view;
+  }
+
+  if (window.localStorage['activeHRView'] == null || window.localStorage['activeHRView'] == undefined || window.localStorage['activeHRView']== ""){
+    $scope.setActiveHRView('none');
+  } else {
+    $scope.setActiveHRView(window.localStorage['activeHRView']);
+  }
+
+  $scope.resetToDash = function () {
+    $scope.setActiveHRView('none');
+  }
+
+})
+
+app.controller('OnlinePaymentController', function ($rootScope,$scope,$timeout) {
+  console.log('Loading OnlinePaymentController');
+
+  if (window.localStorage['activeUser'] == null || window.localStorage['activeUser'] == undefined || window.localStorage['activeUser']== ""){
+      window.location.href = "login.php";
+    } else {
+      $rootScope.activeUser = JSON.parse(window.localStorage['activeUser']);
+      console.log('activeUser',$rootScope.activeUser);
+  }
+
+  $scope.moduleSubMenu = [{"title":"Settings","tag":"Manage online payment settings","link":"ops"},{"title":"Transactions","tag":"List online transactions","link":"opt"},{"title":"Custom Gateways","tag":"Manage custom gateways","link":"cg"}];
+
+  $scope.setActiveOnlinePaymentView = function (view) {
+    $scope.activeOnlinePaymentView = view;
+    console.log('activeOnlinePaymentView',view);
+    window.localStorage['activeOnlinePaymentView'] = view;
+  }
+
+  if (window.localStorage['activeOnlinePaymentView'] == null || window.localStorage['activeOnlinePaymentView'] == undefined || window.localStorage['activeOnlinePaymentView']== ""){
+    $scope.setActiveOnlinePaymentView('none');
+   } else {
+    $scope.setActiveOnlinePaymentView(window.localStorage['activeOnlinePaymentView']);
+  }
+
+  $scope.resetToDash = function () {
+    $scope.setActiveOnlinePaymentView('none');
+  }
+
+  $scope.customGateways = [{'name':'CC Avenue','status':'Active'},{'name':'PayUMoney','status':'Inactive'}];
 })

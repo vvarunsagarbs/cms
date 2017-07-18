@@ -19,32 +19,32 @@
             <div class="col-md-10" style="background-color:#F0F3F4;margin:0px;padding:0px;">
               <!-- Dashboard -->
               <div ng-show="activeSettingsView=='none'">
-                <?php include 'sub/settings/dash.php'; ?>
+                <?php include 'sub/administration/settings/dash.php'; ?>
               </div>
               <!-- /Dashboard -->
               <!-- Manage Course -->
               <div ng-show="activeSettingsView=='mcb'">
-                <?php include 'sub/settings/manageCourseBatch.php'; ?>
+                <?php include 'sub/administration/settings/manageCourseBatch.php'; ?>
               </div>
               <!-- /Manage Course -->
               <!-- Manage Subjects -->
               <div ng-show="activeSettingsView=='ms'">
-                <?php include 'sub/settings/manageSubjects.php'; ?>
+                <?php include 'sub/administration/settings/manageSubjects.php'; ?>
               </div>
               <!-- /Manage Subjects -->
               <!-- Manage Student Category -->
               <div ng-show="activeSettingsView=='msc'">
-                <?php include 'sub/settings/manageStudentCategory.php'; ?>
+                <?php include 'sub/administration/settings/manageStudentCategory.php'; ?>
               </div>
               <!-- /Manage Student Category -->
               <!-- Additional Admission Details -->
               <div ng-show="activeSettingsView=='aaad'">
-                <?php include 'sub/settings/additionalAdmissionDetails.php'; ?>
+                <?php include 'sub/administration/settings/additionalAdmissionDetails.php'; ?>
               </div>
               <!-- /Additional Admission Details -->
               <!-- SMS Module -->
               <div ng-show="activeSettingsView=='sms'">
-                <?php include 'sub/settings/smsModule.php'; ?>
+                <?php include 'sub/administration/settings/smsModule.php'; ?>
               </div>
               <!-- /SMS Module -->
             </div>

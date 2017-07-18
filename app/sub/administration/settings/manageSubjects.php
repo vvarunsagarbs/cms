@@ -9,10 +9,10 @@
       </ul>
     </div>
   </div>
-  <div id="BreadCrumb">
+  <div id="BreadCrumb" data-ng-controller="ModuleController">
     <ul>
       <a href="index.php"><li style="display:inline">Home</li></a> >
-      <a ng-click="setActiveSettingsView('none')"><li style="display:inline">Administration</li></a> >
+      <a href="modules.php" data-ng-click="setActiveModulePage('ad')"><li style="display:inline">Administration</li></a> >
       <a ng-click="setActiveSettingsView('none')"><li style="display:inline">Settings</li></a> >
       <a ng-click="#"><li style="display:inline">Manage Subjects</li></a>
     </ul>

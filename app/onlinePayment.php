@@ -3,7 +3,7 @@
    <!-- Head -->
    <?php include 'include/head.php';?>
    <!-- /Head -->
-   <body data-ng-app="myWebApp" data-ng-controller="ModuleController">
+   <body data-ng-app="myWebApp" data-ng-controller="OnlinePaymentController">
     <!-- NavBar -->
         <?php include 'include/navbar.php';?>
     <!-- /NavBar -->
@@ -18,30 +18,25 @@
             <!-- Main Content -->
             <div class="col-md-10" style="background-color:#F0F3F4;margin:0px;padding:0px;">
               <!-- Dashboard -->
-              <div ng-show="activeModulesView=='none'">
-                <?php include 'sub/modules/dash.php'; ?>
+              <div ng-show="activeOnlinePaymentView=='none'">
+                <?php include 'sub/administration/onlinePayment/dash.php'; ?>
               </div>
               <!-- /Dashboard -->
-              <!-- administration -->
-              <div ng-show="activeModulesView=='ad'">
-                <?php include 'sub/modules/administration.php'; ?>
+              <!-- Hostel -->
+              <div ng-show="activeOnlinePaymentView=='ops'">
+                <?php include 'sub/administration/onlinePayment/settings.php'; ?>
               </div>
-              <!-- /administration -->
-              <!-- academics -->
-              <div ng-show="activeModulesView=='ac'">
-                <?php include 'sub/modules/academics.php'; ?>
+              <!-- /Hostel -->
+              <!-- Rooms -->
+              <div ng-show="activeOnlinePaymentView=='opt'">
+                <?php include 'sub/administration/onlinePayment/transaction.php'; ?>
               </div>
-              <!-- /academics -->
-              <!-- dataReports -->
-              <div ng-show="activeModulesView=='dr'">
-                <?php include 'sub/modules/dataReports.php'; ?>
+              <!-- /Rooms -->
+              <!-- Room Allocation Category -->
+              <div ng-show="activeOnlinePaymentView=='cg'">
+                <?php include 'sub/administration/onlinePayment/customGateways.php'; ?>
               </div>
-              <!-- /dataReports -->
-              <!-- collabration -->
-              <div ng-show="activeModulesView=='co'">
-                <?php include 'sub/modules/collabration.php'; ?>
-              </div>
-              <!-- /collabration -->
+              <!-- /Room Allocation Category -->
             </div>
             <!-- /Main Content -->
           </div>

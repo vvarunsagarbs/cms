@@ -1,4 +1,4 @@
-<div data-ng-controller="SideBarController"  data-ng-controller="ModuleController">
+<div data-ng-controller="SideBarController" data-ng-controller="ModuleController">
   <p id="sideNavTitle">Navigation</p>
   <a href="index.php"><div id="sideNavContent" data-ng-click="setActiveSubNavView('none')">
     Dashboard
@@ -17,7 +17,7 @@
         <i class="fa fa-fw fa-angle-down pullRight"></i>
       </p>
       <ul>
-        <a data-ng-repeat="menu in administrationSubmenu" href="{{menu.link}}" ng-click="setActiveSettingsView('none')"><li>{{menu.title}}</li></a>
+        <a data-ng-repeat="menu in administrationSubmenu" ng-href="{{menu.link}}" ><li>{{menu.title}}</li></a>
       </ul>
     </div>
   </div>

@@ -3,7 +3,7 @@
    <!-- Head -->
    <?php include 'include/head.php';?>
    <!-- /Head -->
-   <body data-ng-app="myWebApp" data-ng-controller="ModuleController">
+   <body data-ng-app="myWebApp" data-ng-controller="HostelController">
     <!-- NavBar -->
         <?php include 'include/navbar.php';?>
     <!-- /NavBar -->
@@ -18,30 +18,30 @@
             <!-- Main Content -->
             <div class="col-md-10" style="background-color:#F0F3F4;margin:0px;padding:0px;">
               <!-- Dashboard -->
-              <div ng-show="activeModulesView=='none'">
-                <?php include 'sub/modules/dash.php'; ?>
+              <div ng-show="activeHostelView=='none'">
+                <?php include 'sub/administration/hostel/dash.php'; ?>
               </div>
               <!-- /Dashboard -->
-              <!-- administration -->
-              <div ng-show="activeModulesView=='ad'">
-                <?php include 'sub/modules/administration.php'; ?>
+              <!-- Hostel -->
+              <div ng-show="activeHostelView=='ho'">
+                <?php include 'sub/administration/hostel/hostels.php'; ?>
               </div>
-              <!-- /administration -->
-              <!-- academics -->
-              <div ng-show="activeModulesView=='ac'">
-                <?php include 'sub/modules/academics.php'; ?>
+              <!-- /Hostel -->
+              <!-- Rooms -->
+              <div ng-show="activeHostelView=='ro'">
+                <?php include 'sub/administration/hostel/rooms.php'; ?>
               </div>
-              <!-- /academics -->
-              <!-- dataReports -->
-              <div ng-show="activeModulesView=='dr'">
-                <?php include 'sub/modules/dataReports.php'; ?>
+              <!-- /Rooms -->
+              <!-- Room Allocation Category -->
+              <div ng-show="activeHostelView=='ra'">
+                <?php include 'sub/administration/hostel/roomAllocation.php'; ?>
               </div>
-              <!-- /dataReports -->
-              <!-- collabration -->
-              <div ng-show="activeModulesView=='co'">
-                <?php include 'sub/modules/collabration.php'; ?>
+              <!-- /Room Allocation Category -->
+              <!-- reports Details -->
+              <div ng-show="activeHostelView=='re'">
+                <?php include 'sub/administration/hostel/reports.php'; ?>
               </div>
-              <!-- /collabration -->
+              <!-- /reports Details -->
             </div>
             <!-- /Main Content -->
           </div>
